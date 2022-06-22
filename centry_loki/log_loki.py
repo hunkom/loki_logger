@@ -265,7 +265,7 @@ def enable_loki_logging(context):
         LokiLogHandler = CarrierLokiLogHandler
     #
     handler = LokiLogHandler(context)
-    handler.setFormatter(logging.getLogger("").handlers[0].formatter)
-    logger = logging.getLogger("")
+    handler.setFormatter(logging.getLogger("centry_logger").handlers[0].formatter)
+    logger = logging.getLogger("centry_logger")
     logger.addHandler(handler)
     return logger
