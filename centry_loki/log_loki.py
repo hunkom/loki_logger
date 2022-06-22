@@ -141,7 +141,6 @@ class CarrierLokiLogHandler(logging.Handler):
     def __init__(self, context):
         super().__init__()
         self.settings = context
-        print(self.settings)
         #
         default_loki_labels = self.settings.get("labels", dict())
         if self.settings.get("include_node_name", True):
@@ -153,7 +152,7 @@ class CarrierLokiLogHandler(logging.Handler):
             loki_password=self.settings.get("password", None),
             loki_token=self.settings.get("token", None),
             default_labels=default_loki_labels,
-            verify=self.settings.get("verify", True),
+            verify=self.settings.get("verify", False),
             # retries=3,
             # retry_delay=0.5,
             # timeout=15,
@@ -193,7 +192,7 @@ class CarrierLokiBufferedLogHandler(logging.handlers.BufferingHandler):
         #
         default_loki_labels = self.settings.get("labels", dict())
         if self.settings.get("include_node_name", True):
-            default_loki_labels["node"] = context.node_name
+            default_loki_labels["node"] = context.get("node_name")
         #
         self.emitter = CarrierLokiLogEmitter(
             loki_push_url=self.settings.get("url"),
@@ -201,7 +200,7 @@ class CarrierLokiBufferedLogHandler(logging.handlers.BufferingHandler):
             loki_password=self.settings.get("password", None),
             loki_token=self.settings.get("token", None),
             default_labels=default_loki_labels,
-            verify=self.settings.get("verify", True),
+            verify=self.settings.get("verify", False),
             # retries=3,
             # retry_delay=0.5,
             # timeout=15,
@@ -260,7 +259,7 @@ class PeriodicFlush(threading.Thread):  # pylint: disable=R0903
 def enable_loki_logging(context):
     """ Enable logging to Loki """
 
-    if context.get("buffering", True):
+    if context.get("buffering", False):
         LokiLogHandler = CarrierLokiBufferedLogHandler
     else:
         LokiLogHandler = CarrierLokiLogHandler

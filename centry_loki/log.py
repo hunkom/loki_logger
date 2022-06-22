@@ -26,7 +26,7 @@ import inspect
 import urllib3  # pylint: disable=E0401
 import requests  # pylint: disable=E0401
 
-import constants
+from centry_loki import constants
 
 
 def init(level=logging.INFO):
