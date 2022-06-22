@@ -28,6 +28,7 @@ import traceback
 import threading
 import requests  # pylint: disable=E0401
 from centry_loki.constants import LOG_FORMAT
+import centry_loki.log as log
 
 
 class CarrierLokiLogEmitter:  # pylint: disable=R0902
@@ -257,9 +258,9 @@ class PeriodicFlush(threading.Thread):  # pylint: disable=R0903
             self.handler.flush()
 
 
-def enable_loki_logging(context):
+def get_logger(context):
     """ Enable logging to Loki """
-
+    log.enable_logging()
     if context.get("buffering", False):
         LokiLogHandler = CarrierLokiBufferedLogHandler
     else:
