@@ -144,7 +144,7 @@ class CarrierLokiLogHandler(logging.Handler):
         #
         default_loki_labels = self.settings.get("labels", dict())
         if self.settings.get("include_node_name", True):
-            default_loki_labels["node"] = context.get("node_name")
+            default_loki_labels["hostname"] = context.get("hostname")
         #
         self.emitter = CarrierLokiLogEmitter(
             loki_push_url=self.settings.get("url"),
@@ -192,7 +192,7 @@ class CarrierLokiBufferedLogHandler(logging.handlers.BufferingHandler):
         #
         default_loki_labels = self.settings.get("labels", dict())
         if self.settings.get("include_node_name", True):
-            default_loki_labels["node"] = context.get("node_name")
+            default_loki_labels["hostname"] = context.get("hostname")
         #
         self.emitter = CarrierLokiLogEmitter(
             loki_push_url=self.settings.get("url"),
