@@ -27,6 +27,7 @@ import logging.handlers
 import traceback
 import threading
 import requests  # pylint: disable=E0401
+from centry_loki.constants import LOG_FORMAT
 
 
 class CarrierLokiLogEmitter:  # pylint: disable=R0902
@@ -264,11 +265,8 @@ def enable_loki_logging(context):
     else:
         LokiLogHandler = CarrierLokiLogHandler
     #
-    print("******************************************************************")
     handler = LokiLogHandler(context)
-    handler.setFormatter(logging.getLogger("centry_logger").handlers[0].formatter)
+    handler.setFormatter(logging.Formatter(LOG_FORMAT))
     logger = logging.getLogger("centry_logger")
     logger.addHandler(handler)
-    print("Logger handler added")
-    print("******************************************************************")
     return logger
