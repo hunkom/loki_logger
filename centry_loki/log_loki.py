@@ -269,5 +269,6 @@ def get_logger(context):
     handler = LokiLogHandler(context)
     handler.setFormatter(logging.Formatter(LOG_FORMAT))
     logger = logging.getLogger("centry_logger")
+    logger.setLevel(logging.INFO)
     logger.addHandler(handler)
     return logger
